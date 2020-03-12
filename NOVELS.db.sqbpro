@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/Users/ann_phan/Desktop/NOVELS.db" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><current_tab id="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1762"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="Writer"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="Consumer" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk=""><sort><column index="6" mode="0"/></sort><column_widths/><filter_values/><display_formats/><hidden_columns/><plot_y_axes/></table><table schema="main" name="ConsumerBuysNovel" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk=""><sort/><column_widths/><filter_values><column index="3" value=""/></filter_values><display_formats/><hidden_columns/><plot_y_axes/></table><table schema="main" name="Novel" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk=""><sort/><column_widths/><filter_values/><display_formats/><hidden_columns/><plot_y_axes/></table><table schema="main" name="NovelWrittenByWriter" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk=""><sort/><column_widths/><filter_values/><display_formats/><hidden_columns/><plot_y_axes/></table><table schema="main" name="Writer" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk=""><sort/><column_widths/><filter_values/><display_formats/><hidden_columns/><plot_y_axes/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">DROP TABLE IF EXISTS ConsumerBuysNovel;
+DROP TABLE IF EXISTS Consumer;
+DROP TABLE IF EXISTS Novel;
+DROP TABLE IF EXISTS Writer;
+
+CREATE TABLE Consumer
+(
+	ConsumerID TINYINT NOT NULL,
+	DOB DATE VARCHAR(10),
+	Occupation VARCHAR(20),
+	Address VARCHAR(40) NOT NULL,
+	CreditCardNumber INT(16) NOT NULL,
+	ConsumerName VARCHAR(30) NOT NULL,
+	PRIMARY KEY (ConsumerID)
+);
+CREATE TABLE Writer
+(
+	WriterID TINYINT NOT NULL,
+	Nationality VARCHAR(20),
+	Gender VARCHAR(1),
+	WriterName VARCHAR(20) NOT NULL,
+	PRIMARY KEY (WriterID)
+);
+CREATE TABLE Novel
+(
+	NovelID TINYINT NOT NULL,
+	Genre VARCHAR(25),
+	Title VARCHAR(50) NOT NULL,
+	Price INT(6) NOT NULL,
+	Publisher VARCHAR(20),
+	WriterID TINYINT NOT NULL,
+	PRIMARY KEY (NovelID),
+	FOREIGN KEY (WriterID) REFERENCES Writer(WriterID)
+);
+CREATE TABLE ConsumerBuysNovel
+(
+	ConsumerID TINYINT NOT NULL,
+	NovelID TINYINT NOT NULL,	
+	Price INT(6) NOT NULL,	
+	PRIMARY KEY (ConsumerID, NovelID)
+	FOREIGN KEY (ConsumerID) REFERENCES Consumer(ConsumerID)
+	FOREIGN KEY (NovelID) REFERENCES Novel(NovelID)
+);
+INSERT INTO Consumer (ConsumerID, DOB, Occupation, Address, CreditCardNumber, ConsumerName) VALUES (1096254730, &quot;10/17/2000&quot;, &quot;Lawyer&quot;, &quot;1010 Toddy St Santa Ana, CA&quot;, 1400961170004321, &quot;Eden Mcguire&quot;);
+INSERT INTO Consumer (ConsumerID, DOB, Occupation, Address, CreditCardNumber, ConsumerName) VALUES (1234567890, &quot;9/3/1998&quot;, &quot;Psychologist&quot;, &quot;73 St John Riverside Residence, Sacramento, CA&quot;, 1268914376503269, &quot;Jenna O'Brien&quot;);
+INSERT INTO Consumer (ConsumerID, DOB, Occupation, Address, CreditCardNumber, ConsumerName) VALUES (4422668850, &quot;7/1/1978&quot;, &quot;Surgeon&quot;, &quot;3789 Loyola Royal Compound, Chicago, IL &quot;, 1086579412310055, &quot;Michael O'Haire&quot;);
+
+INSERT INTO Writer (WriterID, Nationality, Gender, WriterName) VALUES (2345098713, &quot;British&quot;, &quot;M&quot;, &quot;Christian Anderson&quot;);
+INSERT INTO Writer (WriterID, Nationality, Gender, WriterName) VALUES (9182736450, &quot;German&quot;, &quot;F&quot;, &quot;Alexandra Walker&quot;);
+INSERT INTO Writer (WriterID, Nationality, Gender, WriterName) VALUES (3376498105, &quot;Vietnamese&quot;, &quot;M&quot;, &quot;Hoang Hai&quot;);
+
+INSERT INTO Novel (NovelID, Genre, Title, Price, Publisher, WriterID) VALUES (1700961378, &quot;Science Fiction&quot;, &quot;Avatar&quot;, 43, &quot;Pearson&quot;, 2345098713);
+INSERT INTO Novel (NovelID, Genre, Title, Price, Publisher, WriterID) VALUES (7654321890, &quot;Horror&quot;, &quot;Dancing in the Dark&quot;, 85, &quot;McMillan&quot;, 9182736450);
+INSERT INTO Novel (NovelID, Genre, Title, Price, Publisher, WriterID) VALUES (1358679240, &quot;Action&quot;, &quot;Rivalry&quot;, 70, &quot;Adam &amp; Eva&quot;, 3376498105);
+
+INSERT INTO ConsumerBuysNovel (ConsumerID, NovelID, Price) VALUES (1096254730, 1700961378, 43);
+INSERT INTO ConsumerBuysNovel (ConsumerID, NovelID, Price) VALUES  (1234567890, 7654321890, 85);
+INSERT INTO ConsumerBuysNovel (ConsumerID, NovelID, Price) VALUES (4422668850, 1358679240, 70);
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
